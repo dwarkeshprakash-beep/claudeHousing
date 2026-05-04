@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//f/AI_project/components/**)",
+      "Read(//f/AI_project/components/home/**)",
+      "Read(//f/AI_project/lib/**)",
+      "PowerShell(Set-Location \"f:\\\\claude_houseing\\\\apnanest\\\\frontend\"; $j = Start-Job { Set-Location \"f:\\\\claude_houseing\\\\apnanest\\\\frontend\"; npm run build 2>&1 }; Start-Sleep 90; $o = Receive-Job $j; Stop-Job $j; Remove-Job $j; $o | Select-Object -Last 15)",
+      "Bash(grep -E \"\\\\.\\(tsx|ts\\)$\")",
+      "Bash(xargs grep *)",
+      "PowerShell(Set-Location \"f:\\\\claude_houseing\\\\apnanest\\\\frontend\"; npx tsc --noEmit 2>&1 | Select-Object -First 30; Write-Host \"Exit: $LASTEXITCODE\")",
+      "PowerShell(Set-Location \"f:\\\\claude_houseing\\\\apnanest\\\\frontend\"; npx tsc --noEmit 2>&1; Write-Host \"Exit: $LASTEXITCODE\")"
+    ]
+  }
+}

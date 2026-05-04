@@ -1,0 +1,108 @@
+build the project in REact version v19
+and api make enviroment file and proper arcitecure aptetern for the proejct 
+as per prject scope and and future growth and current compantne resuable to max effeciance pattern 
+
+
+users
+1) user Profile section
+2) Admin Profile section
+3) owner/broker profil section(maybe similar as user becuse user can also post about 
+property depends what ideal in other similar sites)
+
+site name or site theam will be decide on the logo i chose.i have few sugegstion 
+1) ApnaNest(i think i like these so u nned to find or give me the unstruction for raltedd svg or videos)
+for site loaders like a nest means home and a familt there and a chidya going round and round
+else we can add logo of the at nest and hose or somthing realted to our site name 
+
+also the site should be built as proffestional, aesthitic , minimal make user a hok on hero or first page section u can be creative and 
+and keep user more on our page maybe wwe can have soihtng animated cartoon type of some nimation or somthing like u have seen in other site 
+maybe we can d somthing prefessionla with hook to that will make user forget why he came to site and see that and yet at the same time explore our site the color pallter u can use 3-4 coloe, primary , seconaary , higlishrt and other 
+color u like as per senior UI/ux i want to be a bit cerative and like fantistic and like a pro designer has created it like dont u see small twek ii f ew site u can add those 
+
+also i ma have given u brief discription for the fields and the site the way i want but u can always add design , remove design and content, and sgegst me .
+other things to make my sit rank hger on seo, also good articure design and all things. these requiremnt doc i have gvieb u is just a start of my idea u can build on  top and reaserch all other simialr site with brief research and proper UI/ ux for user easy uage of site 
+like u have read that quote right "a good designed site people dont call it good design cant be idetifed it so good u dont even thing about it"
+and the UI shpuld be production redy with all the functility and pages as per requiremnt and what ever u add . make the desing in depth and make it dunctility and urrent add sattic data using, using fake apis calls and return data from probaly a fake .json file where we have kept the data we can have multiple json file to not increse load on one json
+file.
+
+make the site respnsive 
+folow typography rules
+
+aalso add other information that should help me fo rthese process.
+
+the site should build trust,like a brand vlaue people trust and help to get what they waht to acchove fast thorugh our site with very smart UI design so user doesnt need to click and find out or look out the thing he wasns much, like trusted brands, we can do womthing like people review i dont like these but if u have nay creative ideas
+
+
+u can add photos , pin mpaps location integrate apis and tehr things 
+
+
+1) user profile section
+Contacted Properties
+Seen Properties
+Saved Properties
+Recent Searches
+login (view without login too but if user wants to do above 4 operation or other operation he needs to register /login)
+report a fraud
+my transcations
+zero brokerage properties
+
+dashboard
+
+nav bar 
+should be sticky
+
+should i these otpon with toggle opton on hover 
+For Buyers
+For Tenants
+For Sellers
+Services
+News & Guide
+alSO POST A PROPERTy for all users 
+
+service sections options
+Home Loan
+Housing Protect
+Housing Premium
+EMI calculator
+Property value calculator
+Rent receipt generator
+
+
+
+
+hero section
+search propoperty by localily, landmark, project or builder(for buy,rent, commercial, plots,  pg/coliving...etc that exisit maybe air bnb)
+also so popular localities as per user location(u need to featch it some how using ip address latitaude longutide as per that data will be filter for user in many apis SO SEARCH RECOMENATION ETC)
+mayeb some good svg some family or like a menad building house using bricks animated, emotional conetet or some value people realte with house maybe a chali and a family or A member standing near his new house and some were we can write have a mobile or somthing saying he got here though over site , these can be done per differnt image like chali for a single gut , a family standing near there new plot with car , a miaddle calss family marraige with there new ghar apravesh image , videros we can create with ai , animated i am thinksing but we can also think of real people edit iamge with ai
+
+
+content section 
+1) Housing's top picks
+2) Top highlighted projects
+3) Projects by trusted developers
+4) Research and Insights
+5) High-demand projects to invest now
+6) Recommended sellers
+7) Have a property to sell?
+8) News and Articles
+
+
+footer section 
+
+we can have nav bar in fotter with these 5 headers and have dffernt content and recomentation as per user location for the user.
+FOR BUYERS
+FOR TENANTS
+PROJECTS
+POPULAR CITIES
+POPULAR SEARCHES
+
+also add instrgam / linkdian /youtube icons 
+
+and about us, contac us etc .. other important fields  
+
+
+
+
+
+
+
