@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import { 
   MessageSquare, Search, Phone, Mail, 
-  Calendar, CheckCircle2, XCircle, MoreHorizontal
+  Calendar, CheckCircle2, XCircle, MoreHorizontal,
+  Download
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -37,6 +38,40 @@ export default function LeadsPage() {
       .finally(() => setLoading(false))
   }, [])
 
+  const downloadCSV = () => {
+    if (leads.length === 0) {
+      toast.error('No leads to download')
+      return
+    }
+
+    const headers = ['Buyer Name', 'Phone', 'Email', 'Property', 'Message', 'Status', 'Date']
+    const rows = leads.map(l => [
+      l.buyerName,
+      l.buyerPhone,
+      l.buyerEmail || '-',
+      l.propertyTitle || 'Unknown Property',
+      (l.message || '').replace(/"/g, '""'), // Escape quotes for CSV
+      l.status || 'New',
+      new Date(l.createdAt).toLocaleDateString()
+    ])
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.setAttribute('href', url)
+    link.setAttribute('download', `ApnaNest_Leads_${new Date().toISOString().split('T')[0]}.csv`)
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    toast.success('Leads exported as CSV')
+  }
+
   const filtered = leads.filter(l => 
     (l.buyerName || '').toLowerCase().includes(search.toLowerCase()) || 
     (l.propertyTitle || '').toLowerCase().includes(search.toLowerCase())
@@ -54,6 +89,13 @@ export default function LeadsPage() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
+        <Button 
+          onClick={downloadCSV}
+          className="rounded-xl h-11 px-6 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] text-white font-bold gap-2 shadow-lg shadow-[var(--primary-600)]/20"
+        >
+          <Download className="h-4 w-4" />
+          Export Leads
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 gap-4">
