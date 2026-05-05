@@ -61,4 +61,17 @@ public class LeadRepository : ILeadRepository
         return await connection.ExecuteScalarAsync<Guid>(sql, lead);
     }
 
+    public async Task<bool> UpdateStatusAsync(Guid id, short statusId)
+    {
+        const string sql = "UPDATE leads SET status_id = @statusId, updated_at = @now WHERE id = @id";
+        using var connection = _connectionFactory.CreateConnection();
+        return await connection.ExecuteAsync(sql, new { id, statusId, now = DateTime.UtcNow }) > 0;
+    }
+
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        const string sql = "DELETE FROM leads WHERE id = @id";
+        using var connection = _connectionFactory.CreateConnection();
+        return await connection.ExecuteAsync(sql, new { id }) > 0;
+    }
 }

@@ -72,9 +72,9 @@ export function PropertyDetail({ property }: { property: Property }) {
   useEffect(() => {
     // Check if saved
     if (user) {
-      api.get<any[]>('/users/me/saved')
+      api.get<Property[]>('/users/me/saved')
         .then(data => {
-          if (data.some(p => p.id === property.id)) setSaved(true)
+          if (data.some((p: Property) => p.id === property.id)) setSaved(true)
         })
         .catch(() => {})
     }

@@ -60,15 +60,43 @@ public class LeadsController : ControllerBase
         return Ok(leads);
     }
 
+    private Guid? CurrentUserId()
+    {
+        var claim = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.FindFirstValue("sub");
+        return Guid.TryParse(claim, out var id) ? id : null;
+    }
+
     [Authorize]
     [HttpGet("my")]
     public async Task<IActionResult> GetMyLeads()
     {
-        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (!Guid.TryParse(userIdClaim, out var userId)) return Unauthorized();
-        var leads = await _leadService.GetLeadsForOwnerAsync(userId);
+        var userId = CurrentUserId();
+        if (userId == null) return Unauthorized();
+        var leads = await _leadService.GetLeadsForOwnerAsync(userId.Value);
         return Ok(leads);
     }
+
+    [Authorize]
+    [HttpPatch("{id:guid}/status")]
+    public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] UpdateStatusRequest request)
+    {
+        var success = await _leadService.UpdateLeadStatusAsync(id, request.StatusId);
+        return success ? Ok(new { message = "Lead status updated." }) : NotFound();
+    }
+
+    [Authorize]
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var success = await _leadService.DeleteLeadAsync(id);
+        return success ? NoContent() : NotFound();
+    }
+}
+
+public class UpdateStatusRequest
+{
+    [JsonPropertyName("statusId")]
+    public short StatusId { get; set; }
 }
 
 public class LeadRequest

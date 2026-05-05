@@ -147,7 +147,7 @@ public class PropertyRepository : IPropertyRepository
                     INNER JOIN properties p ON p.id = l.property_id
                     WHERE p.owner_id = @ownerId), 0) AS TotalLeads,
                 COALESCE((SELECT COUNT(*) FROM properties WHERE owner_id = @ownerId AND is_active = true AND deleted_at IS NULL), 0) AS ActiveListings,
-                COALESCE((SELECT COUNT(*) FROM saved_properties WHERE user_id = @ownerId), 0) AS SavedCount;";
+                COALESCE((SELECT COUNT(*) FROM saved_properties sp INNER JOIN properties p ON p.id = sp.property_id WHERE p.owner_id = @ownerId), 0) AS SavedCount;";
         using var c = _db.CreateConnection();
         return await c.QuerySingleAsync<OwnerStatsDto>(sql, new { ownerId });
     }

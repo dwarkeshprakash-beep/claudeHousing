@@ -63,8 +63,8 @@ export default function PropertyDetailPage() {
         message:    'Interested in this property. Please contact me.' 
       })
       toast.success('Enquiry sent! The owner will contact you soon.')
-    } catch (err: any) {
-      const errorMsg = err?.response?.data?.error || 'Failed to send enquiry. Please try again.'
+    } catch (err: unknown) {
+      const errorMsg = (err as any)?.response?.data?.error || 'Failed to send enquiry. Please try again.'
       toast.error(errorMsg)
     } finally {
       setEnquiring(false)

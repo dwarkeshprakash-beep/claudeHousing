@@ -22,10 +22,17 @@ const ACTIVITY = [
   { id: 4, title: 'Property listed and live', time: '2 days ago', icon: CheckCircle2, unread: false },
 ]
 
+interface Lead {
+  id: string
+  buyerName: string
+  propertyTitle?: string
+  createdAt: string
+}
+
 export default function DashboardOverviewPage() {
   const [stats, setStats] = useState<OwnerStats | null>(null)
   const [statsLoading, setStatsLoading] = useState(true)
-  const [recentLeads, setRecentLeads] = useState<any[]>([])
+  const [recentLeads, setRecentLeads] = useState<Lead[]>([])
 
   useEffect(() => {
     // Stats
@@ -35,7 +42,7 @@ export default function DashboardOverviewPage() {
       .finally(() => setStatsLoading(false))
 
     // Recent Activity (Leads)
-    api.get<any[]>('/leads/my')
+    api.get<Lead[]>('/leads/my')
       .then(data => setRecentLeads(data.slice(0, 4)))
       .catch(() => {})
   }, [])
@@ -108,7 +115,7 @@ export default function DashboardOverviewPage() {
             </Link>
           </div>
           <div className="space-y-6">
-            {recentLeads.length > 0 ? recentLeads.map((item) => (
+            {recentLeads.length > 0 ? recentLeads.map((item: Lead) => (
               <div key={item.id} className="flex items-start gap-4">
                 <div className="mt-1 h-8 w-8 rounded-full bg-[var(--primary-50)] flex items-center justify-center shrink-0">
                   <MessageSquare className="h-4 w-4 text-[var(--primary-500)]" />

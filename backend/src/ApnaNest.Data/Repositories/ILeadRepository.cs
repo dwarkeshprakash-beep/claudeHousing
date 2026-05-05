@@ -8,4 +8,6 @@ public interface ILeadRepository
     Task<IEnumerable<Lead>> GetByOwnerIdAsync(Guid ownerId);
     Task<IEnumerable<Lead>> GetAllAsync();
     Task<Guid> AddAsync(Lead lead);
+    Task<bool> UpdateStatusAsync(Guid id, short statusId);
+    Task<bool> DeleteAsync(Guid id);
 }

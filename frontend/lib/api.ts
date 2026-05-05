@@ -6,7 +6,7 @@ if (typeof window === 'undefined' && API_BASE_URL.includes('localhost')) {
 }
 
 
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 interface RequestOptions {
   method?: HttpMethod;
@@ -62,6 +62,9 @@ export const api = {
     
   put: <T>(endpoint: string, body: any, options?: Omit<RequestOptions, 'method' | 'body'>) => 
     apiRequest<T>(endpoint, { ...options, method: 'PUT', body }),
+    
+  patch: <T>(endpoint: string, body: any, options?: Omit<RequestOptions, 'method' | 'body'>) => 
+    apiRequest<T>(endpoint, { ...options, method: 'PATCH', body }),
     
   delete: <T>(endpoint: string, options?: Omit<RequestOptions, 'method' | 'body'>) => 
     apiRequest<T>(endpoint, { ...options, method: 'DELETE' }),

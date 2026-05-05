@@ -26,4 +26,10 @@ public class LeadService : ILeadService
 
     public Task<Guid> SubmitLeadAsync(Lead lead)
         => _leadRepository.AddAsync(lead);
+
+    public Task<bool> UpdateLeadStatusAsync(Guid id, short statusId)
+        => _leadRepository.UpdateStatusAsync(id, statusId);
+
+    public Task<bool> DeleteLeadAsync(Guid id)
+        => _leadRepository.DeleteAsync(id);
 }

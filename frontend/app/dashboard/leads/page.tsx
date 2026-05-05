@@ -11,21 +11,34 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { api } from '@/lib/api'
+import { toast } from 'sonner'
+
+interface Lead {
+  id: string
+  buyerName: string
+  buyerPhone: string
+  buyerEmail?: string
+  message?: string
+  status?: string
+  statusId?: number
+  propertyTitle?: string
+  createdAt: string
+}
 
 export default function LeadsPage() {
-  const [leads, setLeads] = useState<any[]>([])
+  const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    api.get<any[]>('/leads/my')
+    api.get<Lead[]>('/leads/my')
       .then(data => setLeads(data))
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
 
   const filtered = leads.filter(l => 
-    l.buyerName.toLowerCase().includes(search.toLowerCase()) || 
+    (l.buyerName || '').toLowerCase().includes(search.toLowerCase()) || 
     (l.propertyTitle || '').toLowerCase().includes(search.toLowerCase())
   )
 
@@ -50,7 +63,7 @@ export default function LeadsPage() {
               <div className="flex gap-4">
                 <Avatar className="h-12 w-12 rounded-xl">
                   <AvatarFallback className="bg-[var(--primary-50)] text-[var(--primary-600)] font-bold">
-                    {lead.buyerName.split(' ').map(n => n[0]).join('')}
+                    {(lead.buyerName || 'U').split(' ').map((n: string) => n[0]).join('').toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="space-y-1">
@@ -80,11 +93,38 @@ export default function LeadsPage() {
                   Received {new Date(lead.createdAt).toLocaleDateString()}
                 </div>
                 <div className="flex items-center lg:justify-end gap-2">
-                  <Button variant="outline" size="sm" className="rounded-lg h-9 text-xs font-bold gap-2 text-green-600 hover:text-green-700 hover:bg-green-50 border-green-100">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="rounded-lg h-9 text-xs font-bold gap-2 text-green-600 hover:text-green-700 hover:bg-green-50 border-green-100"
+                    onClick={async () => {
+                      try {
+                        await api.patch(`/leads/${lead.id}/status`, { statusId: 2 }) // 2 = Contacted
+                        setLeads(leads.map(l => l.id === lead.id ? { ...l, statusId: 2 } : l))
+                        toast.success('Lead marked as contacted')
+                      } catch {
+                        toast.error('Failed to update lead')
+                      }
+                    }}
+                  >
                     <CheckCircle2 className="h-3.5 w-3.5" />
                     Mark Contacted
                   </Button>
-                  <Button variant="outline" size="sm" className="rounded-lg h-9 text-xs font-bold gap-2 text-red-500 hover:text-red-600 hover:bg-red-50 border-red-100">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="rounded-lg h-9 text-xs font-bold gap-2 text-red-500 hover:text-red-600 hover:bg-red-50 border-red-100"
+                    onClick={async () => {
+                      if (!confirm('Are you sure you want to archive this lead?')) return
+                      try {
+                        await api.delete(`/leads/${lead.id}`)
+                        setLeads(leads.filter(l => l.id !== lead.id))
+                        toast.success('Lead archived')
+                      } catch {
+                        toast.error('Failed to delete lead')
+                      }
+                    }}
+                  >
                     <XCircle className="h-3.5 w-3.5" />
                     Archive
                   </Button>
