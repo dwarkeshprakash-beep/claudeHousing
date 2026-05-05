@@ -81,7 +81,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
                   saved ? 'bg-red-500 text-white' : 'bg-white/90 hover:bg-white',
                   pulse && 'heart-animate'
                 )}
-                aria-label={saved ? 'Remove from liked' : 'Like property'}
+                aria-label={saved ? 'Unlike property' : 'Like property'}
               >
                 <Heart className={cn('w-4 h-4', saved && 'fill-current')} />
               </button>
@@ -207,7 +207,7 @@ export function PropertyCard({ property, variant = 'grid' }: PropertyCardProps) 
                 saved ? 'bg-red-500 text-white scale-110' : 'bg-white/90 hover:bg-white',
                 pulse && 'heart-animate'
               )}
-              aria-label={saved ? 'Remove from liked' : 'Like property'}
+              aria-label={saved ? 'Unlike property' : 'Like property'}
             >
               <Heart className={cn('w-4 h-4', saved && 'fill-current')} />
             </button>

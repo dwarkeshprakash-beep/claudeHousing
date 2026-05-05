@@ -4,15 +4,15 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Heart, Loader2 } from 'lucide-react'
 import { PropertyCard } from '@/components/property-card'
-import { getSavedProperties } from '@/services/property-service'
-import type { Property } from '@/lib/data'
+import { getLikedProperties } from '@/services/property-service'
+import { type Property } from '@/lib/types'
 
 export default function SavedPage() {
   const [saved, setSaved] = useState<Property[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getSavedProperties()
+    getLikedProperties()
       .then(setSaved)
       .finally(() => setLoading(false))
   }, [])

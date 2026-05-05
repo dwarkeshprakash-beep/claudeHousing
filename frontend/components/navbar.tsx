@@ -322,7 +322,7 @@ export function Navbar() {
                       {[
                         { href: '/dashboard', label: 'Dashboard', icon: '📊' },
                         { href: '/dashboard/listings', label: 'My Listings', icon: '🏡' },
-                        { href: '/dashboard/saved', label: 'Saved Properties', icon: '❤️' },
+                        { href: '/dashboard/saved', label: 'Liked Properties', icon: '❤️' },
                         { href: '/dashboard/messages', label: 'Enquiries', icon: '💬' },
                         { href: '/dashboard/settings', label: 'Account Settings', icon: '⚙️' },
                         { href: '/post-property', label: 'Post a Property', icon: '➕' },
@@ -462,7 +462,7 @@ export function Navbar() {
           { href: '/', icon: Home, label: 'Home' },
           { href: '/search?type=buy', icon: Search, label: 'Search' },
           { href: '/post-property', icon: PlusCircle, label: 'Post', primary: true },
-          { href: '/dashboard/saved', icon: Heart, label: 'Saved' },
+          { href: '/dashboard/saved', icon: Heart, label: 'Liked' },
           { 
             href: user ? '/dashboard' : '/login', 
             icon: User, 

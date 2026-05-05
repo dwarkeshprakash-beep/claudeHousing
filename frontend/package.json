@@ -7,7 +7,7 @@
     "dev:real": "NEXT_PUBLIC_USE_REAL_API=true next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write ."
   },
@@ -70,6 +70,8 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.4",
     "msw": "^2.14.2",
     "postcss": "^8.5",
     "tailwindcss": "^4.2.0",

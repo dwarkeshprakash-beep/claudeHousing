@@ -70,11 +70,11 @@ export async function getMyProperties(): Promise<Property[]> {
   }
 }
 
-export async function getSavedProperties(): Promise<Property[]> {
+export async function getLikedProperties(): Promise<Property[]> {
   try {
     return (await api.get<BackendProperty[]>('/users/me/saved')).map(adapt)
   } catch (error) {
-    console.error("Failed to fetch saved properties", error)
+    console.error("Failed to fetch liked properties", error)
     return []
   }
 }
