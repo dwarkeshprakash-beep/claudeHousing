@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { SlidersHorizontal, Map, List, X, ChevronDown, Search, ArrowUpDown, Loader2 } from 'lucide-react'
+import { SlidersHorizontal, Map, List, LayoutGrid, X, ChevronDown, Search, ArrowUpDown, Loader2 } from 'lucide-react'
 import { PropertyCard } from '@/components/property-card'
 import { FilterSidebar } from '@/components/search/filter-sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -48,7 +48,7 @@ const DEFAULT_FILTERS: FilterState = {
 export function SearchResults() {
   const searchParams = useSearchParams()
   const [showFilters, setShowFilters] = useState(false)
-  const [viewMode, setViewMode] = useState<'list' | 'map'>('list')
+  const [viewMode, setViewMode] = useState<'list' | 'grid' | 'map'>('list')
   const [sortBy, setSortBy] = useState('newest')
   const [showSort, setShowSort] = useState(false)
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '')
@@ -237,10 +237,11 @@ export function SearchResults() {
             )}
           </div>
 
-          {/* List/Map toggle */}
+          {/* List/Grid/Map toggle */}
           <div className="flex rounded-xl border border-border overflow-hidden shrink-0">
             {[
               { mode: 'list' as const, icon: List, label: 'List' },
+              { mode: 'grid' as const, icon: LayoutGrid, label: 'Grid' },
               { mode: 'map' as const, icon: Map, label: 'Map' },
             ].map(({ mode, icon: Icon, label }) => (
               <button
@@ -341,16 +342,27 @@ export function SearchResults() {
 
           {/* Loading skeletons */}
           {loading && (
-            <div className="space-y-4">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="flex gap-4 p-4 rounded-2xl border border-border bg-card">
-                  <Skeleton className="w-56 h-36 rounded-xl shrink-0" />
-                  <div className="flex-1 space-y-3">
-                    <Skeleton className="h-6 w-3/4" />
-                    <Skeleton className="h-4 w-1/2" />
-                    <Skeleton className="h-4 w-1/3" />
+            <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6' : 'space-y-4'}>
+              {Array.from({ length: viewMode === 'grid' ? 6 : 5 }).map((_, i) => (
+                viewMode === 'grid' ? (
+                  <div key={i} className="rounded-2xl border border-border bg-card overflow-hidden">
+                    <Skeleton className="w-full h-48" />
+                    <div className="p-4 space-y-3">
+                      <Skeleton className="h-5 w-3/4" />
+                      <Skeleton className="h-4 w-1/2" />
+                      <Skeleton className="h-4 w-1/3" />
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div key={i} className="flex gap-4 p-4 rounded-2xl border border-border bg-card">
+                    <Skeleton className="w-56 h-36 rounded-xl shrink-0" />
+                    <div className="flex-1 space-y-3">
+                      <Skeleton className="h-6 w-3/4" />
+                      <Skeleton className="h-4 w-1/2" />
+                      <Skeleton className="h-4 w-1/3" />
+                    </div>
+                  </div>
+                )
               ))}
             </div>
           )}
@@ -360,10 +372,14 @@ export function SearchResults() {
             <EmptyState onClear={clearAllFilters} />
           ) : !loading && (
             <>
-              <div className={viewMode === 'map' ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-6' : 'space-y-4'}>
+              <div className={
+                viewMode === 'grid' || viewMode === 'map'
+                  ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6'
+                  : 'space-y-4'
+              }>
                 {filtered.map((property, i) => (
                   <div key={property.id} className="fade-in-up" style={{ animationDelay: `${i * 40}ms` }}>
-                    <PropertyCard property={property} variant={viewMode === 'map' ? 'grid' : 'list'} />
+                    <PropertyCard property={property} variant={viewMode === 'list' ? 'list' : 'grid'} />
                   </div>
                 ))}
               </div>
