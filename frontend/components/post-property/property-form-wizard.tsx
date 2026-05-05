@@ -20,6 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { PROPERTY_TYPES } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { createProperty } from '@/services/property-service'
+import { api } from '@/lib/api'
 
 interface ApiCity  { id: string; name: string; slug: string }
 interface ApiLocality { id: string; name: string; slug: string; city_id: string }
@@ -47,7 +48,7 @@ const STEPS = [
   { id: 'finish',   label: 'Finish',            icon: CheckCircle2  },
 ]
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+
 
 export function PropertyFormWizard() {
   const [currentStep, setCurrentStep]   = useState(0)
@@ -78,8 +79,7 @@ export function PropertyFormWizard() {
 
   // Fetch cities on mount
   useEffect(() => {
-    fetch(`${API_URL}/cities`)
-      .then(r => r.json())
+    api.get<ApiCity[]>('/cities')
       .then(data => {
         setCities(data)
         if (data.length > 0) setValue('cityId', data[0].id)
@@ -92,8 +92,7 @@ export function PropertyFormWizard() {
     if (!selectedCityId) return
     setLoadingLoc(true)
     setValue('localityId', '')
-    fetch(`${API_URL}/localities?cityId=${selectedCityId}`)
-      .then(r => r.json())
+    api.get<ApiLocality[]>(`/localities?cityId=${selectedCityId}`)
       .then(data => { setLocalities(data); setLoadingLoc(false) })
       .catch(() => { setLoadingLoc(false) })
   }, [selectedCityId])
