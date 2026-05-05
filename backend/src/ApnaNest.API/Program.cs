@@ -78,7 +78,17 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy => policy
-            .WithOrigins("http://localhost:3000", "https://localhost:3000")
+            .SetIsOriginAllowed(origin =>
+            {
+                var uri = new Uri(origin);
+                // Allow localhost (any port) for local dev
+                if (uri.Host == "localhost" || uri.Host == "127.0.0.1")
+                    return true;
+                // Allow all Vercel preview and production deployments
+                if (uri.Host.EndsWith(".vercel.app"))
+                    return true;
+                return false;
+            })
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials());
